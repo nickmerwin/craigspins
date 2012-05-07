@@ -20,7 +20,10 @@
 	var imageWidth = 192;
 	var colMargin = 15;
 	var nColumns = Math.floor( $(window).width() / ( pinWidth + colMargin ) );
-  var leftWrPadding = function() { return ( ( $(window).width() - ( nColumns * ( pinWidth + colMargin ) ) ) / 2 );};
+	
+  var leftWrPadding = function() { 
+    return ( ( $(window).width() - ( nColumns * ( pinWidth + colMargin ) ) ) / 2 );
+  };
 
   $(window).resize(function(){ 
     $("body").css({paddingLeft: leftWrPadding()});
