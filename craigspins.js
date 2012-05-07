@@ -12,8 +12,19 @@
 	// * scroll to top link
 	// * BUG: quote in search
 	// * formatted show page via ajax
-
+  
+  
 	// ================ SETUP ==================
+	
+	var pinWidth = 222;
+	var imageWidth = 192;
+	var colMargin = 15;
+	var nColumns = Math.floor( $(window).width() / ( pinWidth + colMargin ) );
+  var leftWrPadding = function() { return ( ( $(window).width() - ( nColumns * ( pinWidth + colMargin ) ) ) / 2 );};
+
+  $(window).resize(function(){ 
+    $("body").css({paddingLeft: leftWrPadding()});
+  });
 
 	var firstPage = $('body').html();
 
@@ -59,7 +70,7 @@
   
   $("html").css({background:'url("http://lemurheavy.com/images/craigspin/paper.jpg")'});
   
-	$("body").css({margin:0, padding:'0 20px', fontFamily:"'helvetica neue', arial, sans-serif", fontSize:'11px', background:'transparent'})
+	$("body").css({margin:0, fontFamily:"'helvetica neue', arial, sans-serif", fontSize:'11px', background:'transparent'})
 		.html($('<div/>',{id:'wr', style:'padding:60px 0 0; width:100%;'})).append($("<div/>",{id:'parser'}).css({display:'none'})) 
 		.append(nav);
 
@@ -68,7 +79,9 @@
 	}).blur(function(){
 		$(this).css({ backgroundColor:"#FAF7F7" });
 	});
+  
 
+  
 	// ================= Search =================
 	var search = function(){
 		try {
@@ -89,20 +102,16 @@
 	qForm.submit(search);
 	qA.click(search);
 
-	var pinWidth = 222;
-	var imageWidth = 192;
-	var margin = 15;
-
-	var nColumns = Math.floor( $(window).width() / (pinWidth) );
-
-	var leftWrPadding = ( $(window).width() - ( nColumns * (pinWidth + margin) ) ) / 2;
 
 	// === Add Columns ===
+	
+	$("body").css({paddingLeft: leftWrPadding()});
+	
 	var columns = [];
 
 	for(var i = 0; i < nColumns; i++) {
 		var column = $("<div/>").css({width:pinWidth, cssFloat:'left', marginLeft:15});
-		if(i == 0) column.css({marginLeft: leftWrPadding});
+		if(i == 0) column.css({marginLeft: 0});
 
 		columns.push(column);
 		$('#wr').append(column);
