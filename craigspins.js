@@ -49,17 +49,18 @@
 	var qWr = $('<div/>', {id:'qWr'}).css({cssFloat:'left', margin:'8px 0 0', paddingLeft:15}).append(qForm.append(qInput).append(qA));
 
 	var logo = $('<div/>',{id:'logo'}).css({position:"absolute",marginLeft:-50, left:'50%', top:7})
-		.append($('<span/>').css({color:'#00E',fontFamily:'serif', fontSize:31}).html('craigs'))
-		.append($('<img/>',{src:'http://passets-cdn.pinterest.com/images/LogoRed.png'}));
+		.append($('<img/>',{src:'http://lemurheavy.com/images/craigspin/logo.png'}));
 
 	var nav = $('<div/>',{id:'nav'}).css({
 			position:'fixed', height:44, top:0, left:0, width:'100%', backgroundColor:'#FAF7F7', boxShadow:"inset 0 1px #fff, 0 1px 3px rgba(34,25,25,0.4)", zIndex: 103,
 			"-webkit-box-shadow": "inset 0 1px #fff, 0 1px 3px rgba(34,25,25,0.4)",
 			"-moz-box-shadow": "inset 0 1px #fff, 0 1px 2px rgba(34,25,25,0.4)"
 		}).append(qWr).append(logo);
-
-	$("body").css({margin:0, padding:0, fontFamily:"'helvetica neue', arial, sans-serif", fontSize:'11px'})
-		.html($('<div/>',{id:'wr', style:'padding:60px 0 0; background-color:#eee; width:100%;'})).append($("<div/>",{id:'parser'}).css({display:'none'})) 
+  
+  $("html").css({background:'url("http://lemurheavy.com/images/craigspin/paper.jpg")'});
+  
+	$("body").css({margin:0, padding:'0 20px', fontFamily:"'helvetica neue', arial, sans-serif", fontSize:'11px', background:'transparent'})
+		.html($('<div/>',{id:'wr', style:'padding:60px 0 0; width:100%;'})).append($("<div/>",{id:'parser'}).css({display:'none'})) 
 		.append(nav);
 
 	$('#q').focus(function(){
@@ -166,14 +167,14 @@
 			var img = imgs[i];
 
 			var image = $('<div/>',{
-				style: 'padding:15px 15px 0; margin: 0 0 15px; background-color:#fff; '+
+				style: 'padding:15px 15px 0; margin: 0 0 15px; overflow: hidden; background-color:#fff; '+
 					'-moz-box-shadow: 0 1px 2px rgba(34,25,25,0.4); -webkit-box-shadow: 0 1px 3px rgba(34,25,25,0.4); box-shadow: 0 1px 3px rgba(34,25,25,0.4);'})
 				.append($('<a/>',{href:img.href, target:'_blank'}).append($('<img/>',{src:img.src, style:'width:'+imageWidth+'px'})))
 				.append($('<div/>').css({margin:'10px 0'})
 					.html($('<a/>',{href:img.href, target:'_blank'}).css({color:"#000", textDecoration:'none'})
 						.html('<b>'+( img.price || '')+'</b>'+ ' ' + img.title.substr(0,20))))
 				.append($('<div/>').css({padding:10, margin:'0 -15px', backgroundColor:"#eee"})
-					.html($('<a/>',{href:img.sectionHref, target:'_blank'}).css({color:'#666', textDecoration:'none'}).html(img.section)));
+					.html($('<a/>',{href:img.sectionHref, target:'_blank'}).css({color:'#8C7E7E', fontWeight:'bold', textTransform:'capitalize', textDecoration:'none'}).html(img.section)));
 
 			var shortest = columns[0];
 			for(var j=0; j < nColumns; j++) 
