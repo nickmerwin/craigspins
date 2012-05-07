@@ -27,7 +27,7 @@
 					'-moz-box-shadow': '0 1px #fff, inset 0 1px rgba(34,25,25,0.05)',
 					'-webkit-box-shadow': '0 1px #fff, inset 0 1px rgba(34,25,25,0.05)',
 					fontSize: 13, borderColor: '#C2C0C0 #CCCACA #D1CFCF', padding:5, 
-					backgroundColor:'#FAF7F7'
+					backgroundColor:'#FAF7F7', margin:0
 				});
 
 	var qA = $('<a/>',{id:'qBtn', href:'#'}).css({
