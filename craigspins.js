@@ -123,7 +123,7 @@
   $("#wr").append($('<div/>').css({clear:'both', cssFloat:'none'}));
 
   // === Page Loading ===
-  var origUrl = window.location.href;
+
   var currPage = 0;
   var qReg = /query=(.*?)(&|$)/;
   var currSearch = ( window.location.search.match(qReg) || [] )[1];
@@ -136,8 +136,7 @@
   var loadPage = function(q,page){
     console.log('loadPage: '+ q);
 
-    var url = origUrl.match(qReg) ? origUrl.replace(qReg,'query='+q+'&') : 
-      ( origUrl.match(/\?/) ? origUrl + '&query='+q : origUrl + '?query='+q);
+    var url = '/search/sss?query='+(q || '');
 
     $.get(url+'&s='+(page * 100),function(html){
       if(!parse(html)) done = true;
