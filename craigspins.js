@@ -172,7 +172,7 @@
 			} else {
 				$.get(as[0].href,function(d){
 					var src = $(d).find('img').attr('src');
-					if(!src.match(/images\.craigslist\.org/)) return;
+					if(!src || !src.match(/images\.craigslist\.org/)) return;
 					addImage(src, as);
 				});
 			}
@@ -184,13 +184,16 @@
   }
 
 	var addImage = function(src,as){
+		var html = as.parents('p').html();
+		if(!html) return;
 		var img = {
 			src: src,
 			href: as[0].href,
 			title: as[0].innerHTML,
 			section: as[1] && as[1].innerHTML,
 			sectionHref: as[1] && as[1].href,
-			price: ( as.parents('p').html().match(/(\$.*?)</) || [])[1]
+			price: ( html.match(/(\$.*?)</) || [])[1],
+			location: ( html.match(/\((.*?)\)/) || [])[1]
 		};
 
 		var image = $('<div/>',{
@@ -201,7 +204,8 @@
 				.html($('<a/>',{href:img.href, target:'_blank'}).css({color:"#000", textDecoration:'none'})
 					.html('<b>'+( img.price || '')+'</b>'+ ' ' + img.title.substr(0,20))))
 			.append($('<div/>').css({padding:10, margin:'0 -15px', backgroundColor:"#eee"})
-				.html($('<a/>',{href:img.sectionHref, target:'_blank'}).css({color:'#8C7E7E', fontWeight:'bold', textTransform:'capitalize', textDecoration:'none'}).html(img.section)));
+				.html($('<a/>',{href:img.sectionHref, target:'_blank'}).css({color:'#8C7E7E', fontWeight:'bold', textTransform:'capitalize', textDecoration:'none'})
+				.html(img.section + ' ('+img.location+')')));
 
 		var shortest = columns[0];
 		for(var j=0; j < nColumns; j++) 
