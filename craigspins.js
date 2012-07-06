@@ -188,11 +188,10 @@
 			src: src,
 			href: as[0].href,
 			title: as[0].innerHTML,
-			section: as[1].innerHTML,
-			sectionHref: as[1].href,
-			price: ( as.html().match(/(\$.*?)</) || [])[1]
+			section: as[1] && as[1].innerHTML,
+			sectionHref: as[1] && as[1].href,
+			price: ( as.parents('p').html().match(/(\$.*?)</) || [])[1]
 		};
-
 
 		var image = $('<div/>',{
 			style: 'padding:15px 15px 0; margin: 0 0 15px; overflow: hidden; background-color:#fff; '+
