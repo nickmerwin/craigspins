@@ -128,6 +128,8 @@
   var qReg = /query=(.*?)(&|$)/;
   var currSearch = ( window.location.search.match(qReg) || [] )[1];
 
+	var category = window.location.pathname.match(/(\w{3})\/?$/)[1];
+
   var nextPage = function(){
     loading = true;
     loadPage(currSearch, ++currPage);
@@ -136,7 +138,7 @@
   var loadPage = function(q,page){
     console.log('loadPage: '+ q);
 
-    var url = '/search/sss?query='+(q || '');
+    var url = '/search/'+category+'?query='+(q || '');
 
     $.get(url+'&s='+(page * 100),function(html){
       if(!parse(html)) done = true;
@@ -158,45 +160,57 @@
 
   var parse = function(html){
     console.log('parsing!');
-    var imgs = []; 
-    $('#parser').html(html).find("span.i").add("span.ih").each(function(){
-      id = this.id.match(/images:(.*?)$/); 
-      if(!id) return;
 
-      var as = $(this).parents('p').find('a');
-      imgs.push({
-        src: "http://images.craigslist.org/"+id[1],
-        href: as[0].href,
-        title: as[0].innerHTML,
-        section: as[1].innerHTML,
-        sectionHref: as[1].href,
-        price: ( $(this).parents('p').html().match(/(\$.*?)</) || [])[1]
-      });
+		count = 0;
+    $('#parser').html(html).find("span.i").add("span.ih").add("span.p").each(function(){
+			var as = $(this).parents('p').find('a');
+
+			if(id = this.id.match(/images:(.*?)$/)){
+
+				addImage("http://images.craigslist.org/"+id[1], as);
+
+			} else {
+				$.get(as[0].href,function(d){
+					var src = $(d).find('img').attr('src');
+					if(!src.match(/images\.craigslist\.org/)) return;
+					addImage(src, as);
+				});
+			}
+
+			count++;
     }); 
 
-    for(var i = 0; i < imgs.length; i++){
-      var img = imgs[i];
-
-      var image = $('<div/>',{
-        style: 'padding:15px 15px 0; margin: 0 0 15px; overflow: hidden; background-color:#fff; '+
-          '-moz-box-shadow: 0 1px 2px rgba(34,25,25,0.4); -webkit-box-shadow: 0 1px 3px rgba(34,25,25,0.4); box-shadow: 0 1px 3px rgba(34,25,25,0.4);'})
-        .append($('<a/>',{href:img.href, target:'_blank'}).append($('<img/>',{src:img.src, style:'width:'+imageWidth+'px'})))
-        .append($('<div/>').css({margin:'10px 0'})
-          .html($('<a/>',{href:img.href, target:'_blank'}).css({color:"#000", textDecoration:'none'})
-            .html('<b>'+( img.price || '')+'</b>'+ ' ' + img.title.substr(0,20))))
-        .append($('<div/>').css({padding:10, margin:'0 -15px', backgroundColor:"#eee"})
-          .html($('<a/>',{href:img.sectionHref, target:'_blank'}).css({color:'#8C7E7E', fontWeight:'bold', textTransform:'capitalize', textDecoration:'none'}).html(img.section)));
-
-      var shortest = columns[0];
-      for(var j=0; j < nColumns; j++) 
-        if(columns[j].height() < shortest.height()) 
-          shortest = columns[j];
-
-      shortest.append(image);
-    }
-
-    return imgs.length > 0;
+    return count > 0;
   }
+
+	var addImage = function(src,as){
+		var img = {
+			src: src,
+			href: as[0].href,
+			title: as[0].innerHTML,
+			section: as[1].innerHTML,
+			sectionHref: as[1].href,
+			price: ( as.html().match(/(\$.*?)</) || [])[1]
+		};
+
+
+		var image = $('<div/>',{
+			style: 'padding:15px 15px 0; margin: 0 0 15px; overflow: hidden; background-color:#fff; '+
+				'-moz-box-shadow: 0 1px 2px rgba(34,25,25,0.4); -webkit-box-shadow: 0 1px 3px rgba(34,25,25,0.4); box-shadow: 0 1px 3px rgba(34,25,25,0.4);'})
+			.append($('<a/>',{href:img.href, target:'_blank'}).append($('<img/>',{src:img.src, style:'width:'+imageWidth+'px'})))
+			.append($('<div/>').css({margin:'10px 0'})
+				.html($('<a/>',{href:img.href, target:'_blank'}).css({color:"#000", textDecoration:'none'})
+					.html('<b>'+( img.price || '')+'</b>'+ ' ' + img.title.substr(0,20))))
+			.append($('<div/>').css({padding:10, margin:'0 -15px', backgroundColor:"#eee"})
+				.html($('<a/>',{href:img.sectionHref, target:'_blank'}).css({color:'#8C7E7E', fontWeight:'bold', textTransform:'capitalize', textDecoration:'none'}).html(img.section)));
+
+		var shortest = columns[0];
+		for(var j=0; j < nColumns; j++) 
+			if(columns[j].height() < shortest.height()) 
+				shortest = columns[j];
+
+		shortest.append(image);
+	}
 
   // ================ START ==================
 
