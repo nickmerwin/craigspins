@@ -18,7 +18,7 @@
   
   var pinWidth = 222;
   var imageWidth = 192;
-  var colMargin = 15;
+  var colMargin = 10;
   var nColumns = Math.floor( $(window).width() / ( pinWidth + colMargin ) );
   
   var leftWrPadding = function() { 
@@ -113,7 +113,7 @@
   var columns = [];
 
   for(var i = 0; i < nColumns; i++) {
-    var column = $("<div/>").css({width:pinWidth, cssFloat:'left', marginLeft:15});
+    var column = $("<div/>").css({width:pinWidth, cssFloat:'left', marginLeft:colMargin});
     if(i == 0) column.css({marginLeft: 0});
 
     columns.push(column);
@@ -197,7 +197,7 @@
 		};
 
 		var image = $('<div/>',{
-			style: 'padding:15px 15px 0; margin: 0 0 15px; overflow: hidden; background-color:#fff; '+
+			style: 'padding:15px 15px 0; margin: 0 0 10px; overflow: hidden; background-color:#fff; '+
 				'-moz-box-shadow: 0 1px 2px rgba(34,25,25,0.4); -webkit-box-shadow: 0 1px 3px rgba(34,25,25,0.4); box-shadow: 0 1px 3px rgba(34,25,25,0.4);'})
 			.append($('<a/>',{href:img.href, target:'_blank'}).append($('<img/>',{src:img.src, style:'width:'+imageWidth+'px'})))
 			.append($('<div/>').css({margin:'10px 0'})
