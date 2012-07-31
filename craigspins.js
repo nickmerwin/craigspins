@@ -18,7 +18,7 @@
   
   var pinWidth = 222;
   var imageWidth = 192;
-  var colMargin = 15;
+  var colMargin = 10;
   var nColumns = Math.floor( $(window).width() / ( pinWidth + colMargin ) );
   
   var leftWrPadding = function() { 
@@ -174,7 +174,7 @@
   var columns = [];
 
   for(var i = 0; i < nColumns; i++) {
-    var column = $("<div/>").css({width:pinWidth, cssFloat:'left', marginLeft:15});
+    var column = $("<div/>").css({width:pinWidth, cssFloat:'left', marginLeft:colMargin});
     if(i == 0) column.css({marginLeft: 0});
 
     columns.push(column);
@@ -292,15 +292,16 @@
   }
 
   var drawImage = function(img){
-    var image = $('<div/>',{
-      style: 'padding:15px 15px 0; margin: 0 0 15px; overflow: hidden; background-color:#fff; '+
-        '-moz-box-shadow: 0 1px 2px rgba(34,25,25,0.4); -webkit-box-shadow: 0 1px 3px rgba(34,25,25,0.4); box-shadow: 0 1px 3px rgba(34,25,25,0.4);'})
-      .append($('<a/>',{href:img.href, target:'_blank'}).append($('<img/>',{src:img.src, style:'width:'+imageWidth+'px'})))
-      .append($('<div/>').css({margin:'10px 0'})
-        .html($('<a/>',{href:img.href, target:'_blank'}).css({color:"#000", textDecoration:'none'})
-          .html('<b>'+( img.price || '')+'</b>'+ ' ' + img.title.substr(0,20))))
-      .append($('<div/>').css({padding:10, margin:'0 -15px', backgroundColor:"#eee"})
-        .html(getWhere(img)));
+		var image = $('<div/>',{
+			style: 'padding:15px 15px 0; margin: 0 0 10px; overflow: hidden; background-color:#fff; '+
+				'-moz-box-shadow: 0 1px 2px rgba(34,25,25,0.4); -webkit-box-shadow: 0 1px 3px rgba(34,25,25,0.4); box-shadow: 0 1px 3px rgba(34,25,25,0.4);'})
+			.append($('<a/>',{href:img.href, target:'_blank'}).append($('<img/>',{src:img.src, style:'width:'+imageWidth+'px'})))
+			.append($('<div/>').css({margin:'10px 0'})
+				.html($('<a/>',{href:img.href, target:'_blank'}).css({color:"#000", textDecoration:'none'})
+					.html('<b>'+( img.price || '')+'</b>'+ ' ' + img.title.substr(0,20))))
+			.append($('<div/>').css({padding:10, margin:'0 -15px', backgroundColor:"#eee"})
+				.html($('<a/>',{href:img.sectionHref, target:'_blank'}).css({color:'#8C7E7E', fontWeight:'bold', textTransform:'capitalize', textDecoration:'none'})
+				.html(getWhere(img))));
 
     image.click(function(){
       return popinImg(img);
